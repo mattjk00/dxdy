@@ -1,24 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import {Page, Toolbar, Card, Button, Row, Col} from 'react-onsenui'
+import {Plot} from "./Plot.js"
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Page id="mainPage">
+      <Toolbar>
+        <div class="center">DE Viewer</div>
+      </Toolbar>
+      <br/><br/><br/>
+      <Row>
+        <Col width="33%">
+          <Card>
+            <p>Hello</p>
+            <Button>Hello</Button>
+          </Card>
+        </Col>
+        <Col>
+          <Card style={{textAlign:'center'}}>
+            <h4 style={{textAlign:'center'}}>Surface Plot</h4>
+            <Plot class="center"></Plot>
+          </Card>
+        </Col>
+      </Row>
+      
+    </Page>
   );
 }
 
