@@ -1,0 +1,26 @@
+canvas {
+    border:1px solid blue;
+    border-radius: 2px;
+    box-shadow: 2px 2px 2px #ddd;
+}
+math {
+    text-align: center;
+    font-family: 'Crimson Text', serif;
+}
+
+.toolbar {
+    background-color: red;
+}
+
+.form-container {
+    display: flex;
+    text-align: center;
+}
+
+.form-container input {
+    margin-left: 20px;
+}
+
+.math-text {
+    font-family: 'Crimson Text', serif;
+}
