@@ -4,10 +4,15 @@ import App from './App';
 import ons from 'onsenui'
 import 'onsenui/css/onsenui.css';
 //import 'onsenui/css/old-onsen-css-components2.css';
+import {DFT, absArray} from "./math/Transforms"
+import { sinArray } from './math/Complex';
 
 ReactDOM.render(
-  <React.StrictMode>
+  /*<React.StrictMode>
     <App />
-  </React.StrictMode>,
+  </React.StrictMode>*/
+  <App/>,
   document.getElementById('root')
 );
+
+

@@ -1,7 +1,8 @@
 import React from 'react';
 import p5 from 'p5'
 import {Button} from 'react-onsenui'
-
+import { sinArray, testArray } from './math/Complex';
+import { DFT, absArray, realArray } from './math/Transforms';
 export class Plot extends React.Component {
     constructor(props) {
         super(props)
@@ -156,8 +157,35 @@ export class Plot extends React.Component {
     
     }
 
+    sketch2d = (p) => {
+        p.setup = () => {
+            p.createCanvas(1000, 500, p.WEBGL);
+            p.noStroke();
+            const sa = sinArray(400, 1000, 44100);
+            const ft = absArray(DFT(sa));
+            //console.log(absArray(sa));
+            const spacing = p.width/(ft.length/4);
+            console.log(spacing);
+            //p.translate(-p.width, -p.height/2);
+            p.scale(1);
+            
+            for (let  i = 0; i < ft.length/2; i++) {
+                p.fill("black");
+                
+                const m = ft[i] * 1/2;
+                p.rect(i*spacing - p.width/2, 0, spacing/2, -m);
+                //p.text("" + i * spacing, i + ft.length/2, p.height-m-20);
+                //p.ellipse(i, sa[i].r * 100 + p.height/2, 1, 1);
+            }
+        }
+
+        p.draw = () => {
+
+        }
+    }
+
     componentDidMount() {
-        this.myP5 = new p5(this.sketch, this.myRef.current)
+        this.myP5 = new p5(this.sketch2d, this.myRef.current)
     }
 
     clicky() {
