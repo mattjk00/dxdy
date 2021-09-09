@@ -1,21 +1,28 @@
+/**
+ * Matthew Kleitz, 2021
+ * SUNY New Paltz
+ */
+
+// Token Identifiers
 const NUM = 0;
 const OPR = 2;
 const FUN = 3;
 const SYM = 4;
 const CON = 5;
-
+// Symbol Tables
 const NUMS = [0,1,2,3,4,5,6,7,8,9];
 const OPRS = ['+', '-', '*', '/', '^', '(', ')'];
 const FUNS = ['sin', 'cos', 'tan', 'sqrt'];
 const SYMS = ['x', 'f'];
 const CONS = ['e', 'pi'];
-
+// Represents a token in the math language
 class Token {
     constructor(val=0, typ=NUM) {
         this.value = val;
         this.ttype = typ;
     }
 }
+// Preset token objects
 const PLUS = new Token('+', OPR);
 const MINUS = new Token('-', OPR);
 const MULT = new Token('*', OPR);
@@ -31,11 +38,16 @@ const E = new Token('e', CON);
 const PI = new Token('pi', CON);
 const ANUM = (n) => { return new Token(n, NUM); };
 
-
+// Parser Globals
+// Input String
 const instr = [LPAR, ANUM(1), PLUS, ANUM(2), RPAR, MULT, ANUM(5), MULT, SIN, LPAR, PI, RPAR];
+// The current Token
 let token = "";
+// The current Token index
 let tindex = -1;
+// Have errors occurred?
 let errors = false;
+// Has the parser finished?
 let finished = false;
 
 const expression = () => {
@@ -84,8 +96,6 @@ const advance = () => {
     tindex += 1;
     if (instr.length === 0 || tindex >= instr.length) {
         console.log("Parse finished with", errors ? "" : "0", "errors.");
-        
-        
         finished = true;
     } else {
         token = instr[tindex];
@@ -107,6 +117,9 @@ const error = (e) => {
     errors = true;
 };
 
+/**
+ * Starts the parsing processing on the input string
+ */
 export function parse() {
     errors = false;
     finished = false;
@@ -119,6 +132,11 @@ export function parse() {
     }
 }
 
+/**
+ * Converts array of Tokens to a string representing the Token sequence.
+ * @param {Array} s 
+ * @returns 
+ */
 function strSequence(s) {
     let str = "";
     for (let i = 0; i < s.length; i++) {
