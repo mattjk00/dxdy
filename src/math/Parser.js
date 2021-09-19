@@ -15,6 +15,7 @@ const OPRS = ['+', '-', '*', '/', '^', '(', ')'];
 const FUNS = ['sin', 'cos', 'tan', 'sqrt'];
 const SYMS = ['x', 'f'];
 const CONS = ['e', 'pi'];
+let Debug = true;
 // Represents a token in the math language
 class Token {
     constructor(val=0, typ=NUM) {
@@ -40,7 +41,7 @@ const ANUM = (n) => { return new Token(n, NUM); };
 
 // Parser Globals
 // Input String
-const instr = [LPAR, ANUM(1), PLUS, ANUM(2), RPAR, MULT, ANUM(5), MULT, SIN, LPAR, PI, RPAR];
+let instr = [LPAR, ANUM(1), PLUS, ANUM(2), RPAR, MULT, ANUM(5), MULT, SIN, LPAR, PI, RPAR];
 // The current Token
 let token = "";
 // The current Token index
@@ -49,6 +50,7 @@ let tindex = -1;
 let errors = false;
 // Has the parser finished?
 let finished = false;
+let lasttoken = "";
 
 const expression = () => {
     term();
@@ -62,9 +64,14 @@ const expression = () => {
 const term = () => {
     factor();
     if (token.value === '*' || token.value === '/') {
-        advance();
-        factor();
-        term();
+        if (lasttoken && lasttoken.ttype === OPR && lasttoken.value != ')') {
+            error("Invalid Operator!")
+        } else {
+            advance();
+            factor();
+            term();
+        }
+        
     }
 };
 
@@ -82,24 +89,26 @@ const factor = () => {
         expression();
         consume(')');
     }
-    else if (t === '(') {
+    else if (token.value === '(') {
         advance();
         expression();
         consume(')');
     }
-    /*else {
-        error(" a factor. Unexpected: " + token.value);
+    /*else if (t != OPR) {
+        error(" a factor. Unexpected: " + token.value + ". tindex=" + tindex + ". ttype=" + t);
     }*/
 };
 
 const advance = () => {
     tindex += 1;
     if (instr.length === 0 || tindex >= instr.length) {
-        console.log("Parse finished with", errors ? "" : "0", "errors.");
+        //console.log("Parse finished with", errors ? "" : "0", "errors.");
         finished = true;
     } else {
         token = instr[tindex];
-        console.log(token.value);
+        if (tindex > 0) {
+            lasttoken = instr[tindex-1];
+        }
     }
 };
 
@@ -112,24 +121,35 @@ const consume = (c) => {
 };
 
 const error = (e) => {
-    console.log("Error at column", tindex, ". expected", e);
-    console.log("\t", instr[tindex-1].value, "|", token.value);
+    if (Debug == true) {
+        console.log("Error at column", tindex, ". expected", e);
+    }
+    
+    //console.log("\t", instr[tindex-1].value, "|", token.value);
     errors = true;
 };
 
 /**
- * Starts the parsing processing on the input string
+ * Starts the parsing processing on the input string.
+ * Returns true if success.
  */
-export function parse() {
+function parse(expr) {
+    instr = expr;
     errors = false;
     finished = false;
     tindex = -1;
-    console.log(strSequence(instr));
+    lasttoken = null;
+
+    if (expr.length == 0) {
+        return false;
+    }
     
     while(!finished && !errors) {
         advance();
         expression();
     }
+
+    return !errors;
 }
 
 /**
@@ -144,3 +164,5 @@ function strSequence(s) {
     }
     return str;
 }
+
+module.exports =  { parse, Token, PLUS, MINUS, MULT, DIV, POW, LPAR, RPAR, SIN, COS, TAN, SQRT, E, PI, ANUM, Debug };
