@@ -15,7 +15,7 @@ const OPRS = ['+', '-', '*', '/', '^', '(', ')'];
 const FUNS = ['sin', 'cos', 'tan', 'sqrt'];
 const SYMS = ['x', 'f'];
 const CONS = ['e', 'pi'];
-let Debug = true;
+let Debug = false;
 // Represents a token in the math language
 class Token {
     constructor(val=0, typ=NUM) {
@@ -165,4 +165,4 @@ function strSequence(s) {
     return str;
 }
 
-module.exports =  { parse, Token, PLUS, MINUS, MULT, DIV, POW, LPAR, RPAR, SIN, COS, TAN, SQRT, E, PI, ANUM, Debug };
+module.exports =  { parse, Token, OPRS, PLUS, MINUS, MULT, DIV, POW, LPAR, RPAR, SIN, COS, TAN, SQRT, E, PI, ANUM, Debug };
