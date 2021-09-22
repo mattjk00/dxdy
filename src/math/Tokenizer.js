@@ -7,7 +7,7 @@
  * S -> CONST S
  * S -> ~
  */
-const {Token, NUM, OPRS, OPR, SYM, CON} = require('./Parser');
+const {Token, NUM, OPRS, OPR, SYM, CON, SYMS} = require('./Parser');
 const NUMSTR = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
 
 let instr = '5*1';
@@ -27,7 +27,7 @@ const str = () => {
         oper();
         str();
     }
-    else if (char === 'x' || char === 'f') {
+    else if (SYMS.includes(char)) {
         sym();
         str();
     }
@@ -36,6 +36,9 @@ const str = () => {
         str();
     }
     else if (char === '\0') {
+        advance();
+    }
+    else if (char === ' ') {
         advance();
     }
     else {

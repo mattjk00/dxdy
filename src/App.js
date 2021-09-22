@@ -1,7 +1,20 @@
 import {Page, Toolbar, Card, Input, Row, Col} from 'react-onsenui'
 import {Plot} from "./Plot.js"
+import {tokenize} from "./math/Tokenizer"
+import React, {useState} from 'react';
 
 function App() {
+
+  const [exprText, setExprText] = useState(0);
+  const [validExpr, setValidExpr] = useState(false);
+
+  const onExprInput = (e) => {
+    const text = e.target.value;
+    setExprText(text);
+    let okayTokens = tokenize(text);
+    setValidExpr(okayTokens);
+  };
+
   return (
     <Page id="mainPage" modifier="material">
       <Toolbar>
@@ -12,7 +25,8 @@ function App() {
         <Col width="33%">
           <Card>
             <span class="form-container">
-              <Input placeholder="f(x,y)=" modifier="material" float></Input>
+              <Input onChange={(e)=>{ onExprInput(e); }} placeholder="f(x,y)=" modifier="material" float></Input>
+              <p>{validExpr ? "True" : "False"}</p>
             </span>
             <br/>
 

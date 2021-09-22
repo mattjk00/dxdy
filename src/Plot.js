@@ -162,7 +162,7 @@ export class Plot extends React.Component {
         p.setup = () => {
             p.createCanvas(1000, 500, p.WEBGL);
             p.noStroke();
-            /*const sa = sinArray(400, 1000, 44100);
+            const sa = sinArray(400, 1000, 44100);
             const ft = absArray(DFT(sa));
             
             const spacing = p.width/(ft.length/4);
@@ -174,8 +174,8 @@ export class Plot extends React.Component {
                 p.fill("black");
                 const m = ft[i] * 1/2;
                 p.rect(i*spacing - p.width/2, 0, spacing/2, -m);
-            }*/
-            parse();
+            }
+            //parse();
         }
 
         p.draw = () => {
