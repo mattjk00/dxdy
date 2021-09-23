@@ -37,6 +37,8 @@ const TAN = new Token('tan', FUN);
 const SQRT = new Token('sqrt', FUN);
 const E = new Token('e', CON);
 const PI = new Token('pi', CON);
+const LAMBDA = new Token('lambda', SYMS);
+const CONSTANT = new Token('C', 4);
 const ANUM = (n) => { return new Token(n, NUM); };
 
 // Parser Globals
@@ -165,4 +167,4 @@ function strSequence(s) {
     return str;
 }
 
-module.exports =  { parse, Token, OPRS, PLUS, MINUS, MULT, DIV, POW, LPAR, RPAR, SIN, COS, TAN, SQRT, E, PI, ANUM, Debug, SYM, NUM, OPR, SYMS };
+module.exports =  { parse, Token, OPRS, PLUS, MINUS, MULT, DIV, POW, LPAR, RPAR, SIN, COS, TAN, SQRT, E, PI, ANUM, Debug, SYM, NUM, OPR, SYMS, E, LAMBDA, CONSTANT };

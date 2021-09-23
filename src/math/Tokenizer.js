@@ -123,7 +123,7 @@ const tokenize = (expr) => {
     newToken = new Token();
     advance();
     str();
-    console.log(tokens);
+    //console.log(tokens);
     return !errors;
 };
 
