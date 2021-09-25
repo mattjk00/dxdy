@@ -2,6 +2,7 @@ import {Page, Toolbar, Card, Input, Row, Col} from 'react-onsenui'
 import {Plot} from "./Plot.js"
 import {tokenize} from "./math/Tokenizer"
 import React, {useState} from 'react';
+import { HeatEqForm } from './forms/HeatEqForm.js';
 
 function App() {
 
@@ -23,7 +24,7 @@ function App() {
       <br/><br/><br/>
       <Row>
         <Col width="33%">
-          <Card>
+          {/* <Card>
             <span class="form-container">
               <Input onChange={(e)=>{ onExprInput(e); }} placeholder="f(x,y)=" modifier="material" float></Input>
               <p>{validExpr ? "True" : "False"}</p>
@@ -33,7 +34,8 @@ function App() {
             <div>
             <math xmlns="http://www.w3.org/1998/Math/MathML"><mfrac><mrow><mn>5</mn><mo>*</mo><mi>sin</mi><mo>(</mo><mi>x</mi><mo>)</mo><mi>cos</mi><mo>(</mo><mi>y</mi><mo>)</mo></mrow><mn>2</mn></mfrac></math>
             </div>
-          </Card>
+          </Card> */}
+          <HeatEqForm></HeatEqForm>
         </Col>
         <Col>
           <Card style={{textAlign:'center'}}>
