@@ -3,6 +3,7 @@ import {Plot} from "./Plot.js"
 import {tokenize} from "./math/Tokenizer"
 import React, {useState} from 'react';
 import { HeatEqForm } from './forms/HeatEqForm.js';
+import { WholeForm } from './forms/WholeForm.js';
 
 function App() {
 
@@ -35,9 +36,12 @@ function App() {
             <math xmlns="http://www.w3.org/1998/Math/MathML"><mfrac><mrow><mn>5</mn><mo>*</mo><mi>sin</mi><mo>(</mo><mi>x</mi><mo>)</mo><mi>cos</mi><mo>(</mo><mi>y</mi><mo>)</mo></mrow><mn>2</mn></mfrac></math>
             </div>
           </Card> */}
-          <HeatEqForm></HeatEqForm>
+          <Card>
+            <WholeForm></WholeForm>
+          </Card>
+          
         </Col>
-        <Col>
+        <Col witdh="66%">
           <Card style={{textAlign:'center'}}>
             <h4 style={{textAlign:'center'}}>Surface Plot</h4>
             <Plot class="center"></Plot>
