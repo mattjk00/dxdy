@@ -137,28 +137,29 @@ const reducedRowEchelon = (m, precision=5) => {
             
         }
         max = rpColumn;
-        console.log(rpColumn, 'row:',rpRow);
+        //console.log(rpColumn, 'row:',rpRow);
 
         const divisor = re[rpRow][rpColumn];
         for (let x = rpColumn; x < width; x++) {
             if (re[rpRow][x] != 0) {
-                re[rpRow][x] = round(re[rpRow][x]/divisor, precision-1);
+                re[rpRow][x] = round(re[rpRow][x]/divisor, precision);
             }
             
         }
-        console.log(re);
+        //console.log(re);
         
         let pivot = re[rpRow][rpColumn];
         
         //re[rpRow][rpColumn] = pivot; // normalize pivot point
         for (let y = rpRow-1; y >= 0; y--) {
-            const scale = re[rpRow-1][rpColumn] / pivot;
+            const scale = re[y][rpColumn] / pivot;
             for (let x = rpColumn; x < width; x++) {
                 
                 re[y][x] = re[y][x] - scale * re[rpRow][x];
                 //console.log(re);
             }
-            
+            //const scale = re[y][rpColumn] / pivot;
+            //re[y][rpColumn] = 0;//re[y][rpColumn] - scale * pivot;
         }
         //console.log(rpRow, rpColumn);
         rpColumn = -1;
@@ -171,7 +172,7 @@ const reducedRowEchelon = (m, precision=5) => {
             }
         }
     }
-    
+    console.log(re);
     return re;
 };
 
