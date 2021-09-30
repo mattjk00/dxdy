@@ -2,11 +2,12 @@
 * Matthew Kleitz, 2021
 * SUNY New Paltz
 */
+const { round } = require('mathjs')
 
-const round = (n, p) => {
+/*const round = (n, p) => {
     const scale = Math.pow(10, p);
     return Math.round((n + Number.EPSILON) * scale) / scale;
-};
+};*/
 
 const newMatrix = (w, h) => {
     let m = [];
@@ -121,6 +122,7 @@ const reducedRowEchelon = (m, precision=5) => {
                 if (re[j][i] < Math.pow(10, -(precision))) {
                     re[j][i] = 0;
                 }
+                //re[j][i] = round(re[j][i], precision);
 
                 const mij = re[j][i];
                 if (mij != 0 && i < rpColumn) {
