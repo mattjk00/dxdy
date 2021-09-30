@@ -28,7 +28,7 @@ const identity = (w, h) => {
     return i;
 }
 
-const rowEchelon = (m) => {
+const rowEchelon = (m, precision=5) => {
     const width = m[0].length;
     const height = m.length;
     let mc = m.slice();
@@ -55,7 +55,7 @@ const rowEchelon = (m) => {
             const scale = (mc[h][pivotIndex] / mc[n][pivotIndex]);
             if (isNaN(scale) === false && mc[h][pivotIndex] != 0) {
                 for (let i = 0; i < width; i++) {
-                    mc[h][i] = round(mc[h][i] - (mc[n][i] * scale), 5);
+                    mc[h][i] = round(mc[h][i] - (mc[n][i] * scale), precision);
                 }
             }
         }
@@ -70,7 +70,7 @@ const rowEchelon = (m) => {
     return re;
 };
 
-const reducedRowEchelon = (m) => {
+const reducedRowEchelon = (m, precision=5) => {
     const width = m[0].length;
     const height = m.length;
     let mc = m.slice();
@@ -97,7 +97,8 @@ const reducedRowEchelon = (m) => {
             const scale = (mc[h][pivotIndex] / mc[n][pivotIndex]);
             if (isNaN(scale) === false && mc[h][pivotIndex] != 0) {
                 for (let i = 0; i < width; i++) {
-                    mc[h][i] = round(mc[h][i] - (mc[n][i] * scale), 5);
+                    mc[h][i] = round(mc[h][i] - (mc[n][i] * scale), precision);
+                    
                 }
             }
         }
@@ -108,13 +109,19 @@ const reducedRowEchelon = (m) => {
     }
     re.push(mc[mc.length-1]);
 
-    
+    console.log(re);
     let rpColumn = -1;
     let rpRow = -1;
     let max = width;
     for (let n = height-1; n > 0; n--) {
         for (let j = height-1; j >= 0; j--) {
             for (let i = 0; i < max; i++) {
+                
+                // round down numbers that are essentially zero.
+                if (re[j][i] < Math.pow(10, -(precision))) {
+                    re[j][i] = 0;
+                }
+
                 const mij = re[j][i];
                 if (mij != 0 && i < rpColumn) {
                     break;
@@ -128,13 +135,16 @@ const reducedRowEchelon = (m) => {
             
         }
         max = rpColumn;
+        console.log(rpColumn, 'row:',rpRow);
 
+        const divisor = re[rpRow][rpColumn];
         for (let x = rpColumn; x < width; x++) {
             if (re[rpRow][x] != 0) {
-                re[rpRow][x] = re[rpRow][x]/re[rpRow][rpColumn];    
+                re[rpRow][x] = round(re[rpRow][x]/divisor, precision-1);
             }
             
         }
+        console.log(re);
         
         let pivot = re[rpRow][rpColumn];
         
@@ -144,7 +154,7 @@ const reducedRowEchelon = (m) => {
             for (let x = rpColumn; x < width; x++) {
                 
                 re[y][x] = re[y][x] - scale * re[rpRow][x];
-                console.log(re);
+                //console.log(re);
             }
             
         }
