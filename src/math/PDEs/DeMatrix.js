@@ -4,10 +4,15 @@ class DeMatrix {
     constructor(derivatives) {
         this.dmatrix = derivatives;
         //this.pmatrix = polyns;
+        // [0, 1, 1]
+        // []
     }
 
     solve() {
-
+        // [L, 0, 1] = 0
+        // L + 0X + X' = 0
+        // c1*e^(-Lx)
+        
         if (this.dmatrix.length == 3) {
             // Copy matrix and convert into tokens
             let dm = this.dmatrix.slice();
