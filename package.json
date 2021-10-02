@@ -7,6 +7,7 @@
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
     "mathjs": "^9.5.0",
+    "ml-matrix": "^6.8.0",
     "onsenui": "^2.11.2",
     "p5": "^1.4.0",
     "react": "^17.0.2",

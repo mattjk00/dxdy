@@ -138,7 +138,7 @@ const reducedRowEchelon = (m, precision=5) => {
         for (let j = height-1; j >= 0; j--) {
             for (let i = 0; i < max; i++) {
                 
-                if (Math.abs(re[j][i]) < Math.pow(10, -(precision))) {
+                if (Math.abs(re[j][i]) < Math.pow(10, -(precision-1))) {
                     re[j][i] = 0;
                 }
 
@@ -185,7 +185,29 @@ const reducedRowEchelon = (m, precision=5) => {
     return re;
 };
 
-const inverse = (m, precision=5) => {
+/*const minors = (m) => {
+    let mn = m.slice();
+    const width = m[0].length;
+    const height = m.length;
+
+    let curx = 0;
+    let cury = 0;
+
+    while (curx < width && cury < height) {
+        let dstack = [];
+        for (let i = 0; i < height; i++) {
+            for (let j = 0; j < width; j++) {
+                if (i != cury && j != curx) {
+                    dstack.push(m[i][j]);
+                }
+            }
+        }
+
+    }
+};*/
+
+
+/*const inverse = (m, precision=5) => {
     const width = m[0].length;
     const height = m.length;
     let mc = m.slice();
@@ -238,11 +260,11 @@ const inverse = (m, precision=5) => {
         for (let j = height-1; j >= 0; j--) {
             for (let i = 0; i < max; i++) {
                 
-                if (Math.abs(re[j][i]) < Math.pow(10, -(precision))) {
+                if (Math.abs(re[j][i]) < Math.pow(10, -(precision-1))) {
                     re[j][i] = 0;
                 }
 
-                if (Math.abs(id[j][i]) < Math.pow(10, -(precision))) {
+                if (Math.abs(id[j][i]) < Math.pow(10, -(precision-1))) {
                     id[j][i] = 0;
                 }
 
@@ -273,8 +295,10 @@ const inverse = (m, precision=5) => {
         
         let pivot = re[rpRow][rpColumn];
         
+
         for (let y = rpRow-1; y >= 0; y--) {
             const scale = re[y][rpColumn] / pivot;
+            //const iscale = id[y][rpColumn] / pivot;
             for (let x = rpColumn; x < width; x++) {   
                 re[y][x] = re[y][x] - scale * re[rpRow][x];
                 id[y][x] = id[y][x] - scale * id[rpRow][x];
@@ -295,6 +319,6 @@ const inverse = (m, precision=5) => {
     }
     console.log(id);
     return id;
-};
+};*/
 
-module.exports = { newMatrix, rowEchelon, inverse, reducedRowEchelon, multiply };
+module.exports = { newMatrix, rowEchelon, reducedRowEchelon, multiply };
