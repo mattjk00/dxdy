@@ -2,7 +2,7 @@ const {laplace} = require('../math/PDEs/Laplace');
 
 test('Laplace', () => {
     expect(
-        laplace(2, 2, 4,
+        laplace(2, 2, 30,
             (s)=>{return 0;},
             (s)=>{return 0;},
             (y)=>{ return y*(2 - y); }, 

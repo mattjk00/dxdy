@@ -4,6 +4,9 @@ import p5 from 'p5'
 import { sinArray, testArray } from './math/Complex';
 import { DFT, absArray, realArray } from './math/Transforms';
 import { parse } from './math/Parser';
+const {laplace} = require('./math/PDEs/Laplace');
+const {Matrix} = require('ml-matrix');
+
 export class Plot extends React.Component {
     constructor(props) {
         super(props)
@@ -160,9 +163,30 @@ export class Plot extends React.Component {
 
     sketch2d = (p) => {
         p.setup = () => {
-            p.createCanvas(1000, 500, p.WEBGL);
+            p.createCanvas(1000, 500);
             p.noStroke();
-            const sa = sinArray(400, 1000, 44100);
+            const m = laplace(2, 2, 40,
+                (s)=>{return 0;},
+                (s)=>{return 0;},
+                (y)=>{ return y*(2 - y); }, 
+                (x)=>{ 
+                    if (x > 0 && x < 1) {
+                        return x;
+                    } else if (x >=1 && x < 2) {
+                        return 2-x;
+                    }
+                }
+            )
+            for (let y = 0; y < 39; y++) {
+                for (let x = 0; x < 39; x++) {
+                    const z = m.get(y, x);
+                    p.fill(255 * z, 200 * z, 100);
+                    p.rect(x*10, y*10, 10, 10);
+                }
+            }    
+
+                
+            /*const sa = sinArray(400, 1000, 44100);
             const ft = absArray(DFT(sa));
             
             const spacing = p.width/(ft.length/4);
@@ -175,7 +199,8 @@ export class Plot extends React.Component {
                 const m = ft[i] * 1/2;
                 p.rect(i*spacing - p.width/2, 0, spacing/2, -m);
             }
-            //parse();
+            //parse();*/
+
         }
 
         p.draw = () => {
