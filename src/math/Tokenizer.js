@@ -7,8 +7,9 @@
  * S -> CONST S
  * S -> ~
  */
-const {Token, NUM, OPRS, OPR, SYM, CON, SYMS} = require('./Parser');
+const {Token, NUM, OPRS, OPR, SYM, CON, SYMS, FUNS, FUN} = require('./Parser');
 const NUMSTR = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+const FNPREDICT = ['s', 'c', 't']; // function predict set
 
 let instr = '5*1';
 let charindex = -1;
@@ -19,6 +20,7 @@ let tokens;
 let errors;
 
 const str = () => {
+    
     if (NUMSTR.includes(char)) {
         num();
         str();
@@ -30,6 +32,12 @@ const str = () => {
     else if (SYMS.includes(char)) {
         sym();
         str();
+    }
+    else if (FNPREDICT.includes(char)) {
+        func();
+        matchOperator('(');
+        str();
+        matchOperator(')');
     }
     else if (char === 'e' || char === 'p') {
         consts();
@@ -43,6 +51,46 @@ const str = () => {
     }
     else {
         errors = true;
+    }
+};
+
+const func = () => {
+    
+    if (char === 's') {
+        advance();
+        if (char == 'i') {
+            advance();
+            matchString('n'); // sin
+            newToken = new Token('sin', FUN);
+            save();
+        } else {
+            matchString('qrt'); // sqrt
+            newToken = new Token('sqrt', FUN);
+            save();
+        }
+    }
+    else if (char === 'c') {
+        advance();
+        matchString('os'); // cos
+        newToken = new Token('cos', FUN);
+        save();
+    }
+    else if (char === 't') {
+        advance();
+        matchString('an'); // tan
+        newToken = new Token('tan', FUN);
+        save();
+    }
+};
+
+const matchString = (s) => {
+    for (let i = 0; i < s.length; i++) {
+        if (char === s[i]) {
+            advance();
+        } else {
+            errors = true;
+            break;
+        }
     }
 };
 
@@ -105,6 +153,16 @@ const advance = () => {
     }
 };
 
+const matchOperator = (c) => {
+    if (char === c) {
+        advance();
+        newToken = new Token(c, OPR);
+        save();
+    } else {
+        errors = true;
+    }
+};
+
 const save = () => {
     tokens.push(newToken);
     newToken = new Token();
@@ -127,4 +185,8 @@ const tokenize = (expr) => {
     return !errors;
 };
 
-module.exports = {tokenize};
+const getTokens = () => {
+    return tokens;
+}
+
+module.exports = {tokenize, getTokens};

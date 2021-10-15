@@ -13,7 +13,7 @@ const CON = 5;
 const NUMS = [0,1,2,3,4,5,6,7,8,9];
 const OPRS = ['+', '-', '*', '/', '^', '(', ')', '\''];
 const FUNS = ['sin', 'cos', 'tan', 'sqrt'];
-const SYMS = ['X', 'Y', '='];
+const SYMS = ['x', 'y'];
 const CONS = ['e', 'pi'];
 let Debug = false;
 // Represents a token in the math language
@@ -167,4 +167,4 @@ function strSequence(s) {
     return str;
 }
 
-module.exports =  { parse, Token, OPRS, PLUS, MINUS, MULT, DIV, POW, LPAR, RPAR, SIN, COS, TAN, SQRT, E, PI, ANUM, Debug, SYM, NUM, OPR, SYMS, E, LAMBDA, CONSTANT };
+module.exports =  { parse, Token, OPRS, PLUS, MINUS, MULT, DIV, POW, LPAR, RPAR, SIN, COS, TAN, SQRT, E, PI, ANUM, Debug, SYM, NUM, OPR, SYMS, E, LAMBDA, CONSTANT, FUNS, FUN };

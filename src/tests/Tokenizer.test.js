@@ -18,8 +18,8 @@ test('Tokenize Expression: hello', () => {
     ).toBe(false);
 });
 
-test("Tokenize Expression: X'Y = XY'", () => {
+test('Tokenize Expression: sin(x)', () => {
     expect(
-        tokenize("X'Y=XY'")
-    ).toBe(true);
+        tokenize('sin(x)')
+    ).toBe(false);
 });

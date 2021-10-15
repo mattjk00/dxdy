@@ -1,4 +1,5 @@
 import { HeatEqForm } from "./HeatEqForm";
+import { LaplaceForm } from "./LaplaceForm";
 import { useState } from "react"
 
 export const WholeForm = () => {
@@ -19,7 +20,7 @@ export const WholeForm = () => {
             return <p>Wave</p>;
         }
         else {
-            return <p>Laplace</p>;
+            return  <LaplaceForm></LaplaceForm>;
         }
     }
 
