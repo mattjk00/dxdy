@@ -2,7 +2,7 @@ import { HeatEqForm } from "./HeatEqForm";
 import { LaplaceForm } from "./LaplaceForm";
 import { useState } from "react"
 
-export const WholeForm = () => {
+export const WholeForm = (props) => {
 
     const [tabIndex, setTabIndex] = useState(0);
 
@@ -20,7 +20,7 @@ export const WholeForm = () => {
             return <p>Wave</p>;
         }
         else {
-            return  <LaplaceForm></LaplaceForm>;
+            return  <LaplaceForm drawLaplace={props.drawLaplace} setux0={props.setux0} setu0y={props.setu0y} setuxb={props.setuxb} setuay={props.setuay}></LaplaceForm>;
         }
     }
 

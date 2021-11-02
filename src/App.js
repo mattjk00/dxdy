@@ -4,17 +4,35 @@ import {tokenize} from "./math/Tokenizer"
 import React, {useState} from 'react';
 import { HeatEqForm } from './forms/HeatEqForm.js';
 import { WholeForm } from './forms/WholeForm.js';
+const {laplace, Z} =  require('./math/PDEs/Laplace');
+const {Matrix} = require('ml-matrix');
 
 function App() {
 
   const [exprText, setExprText] = useState(0);
   const [validExpr, setValidExpr] = useState(false);
 
+  const [ux0, setux0] = useState(Z);
+  const [u0y, setu0y] = useState(Z);
+  const [uay, setuay] = useState(Z);
+  const [uxb, setuxb] = useState(Z);
+  const [graphData, setGraphData] = useState(new Matrix(40, 40));
+
   const onExprInput = (e) => {
     const text = e.target.value;
     setExprText(text);
     let okayTokens = tokenize(text);
     setValidExpr(okayTokens);
+  };
+
+  const drawLaplace = () => {
+    const m = laplace(2, 2, 40,
+      u0y,
+      ux0,
+      uay,
+      uxb);
+    setGraphData(m);
+    console.log(m);
   };
 
   return (
@@ -37,14 +55,14 @@ function App() {
             </div>
           </Card> */}
           <Card>
-            <WholeForm></WholeForm>
+            <WholeForm drawLaplace={drawLaplace} setux0={setux0} setu0y={setu0y} setuay={setuay} setuxb={setuxb}></WholeForm>
           </Card>
           
         </Col>
         <Col witdh="66%">
           <Card style={{textAlign:'center'}}>
             <h4 style={{textAlign:'center'}}>Surface Plot</h4>
-            <Plot class="center"></Plot>
+            <Plot class="center" graphData={graphData}></Plot>
           </Card>
         </Col>
       </Row>

@@ -4,7 +4,7 @@ import p5 from 'p5'
 import { sinArray, testArray } from './math/Complex';
 import { DFT, absArray, realArray } from './math/Transforms';
 import { parse } from './math/Parser';
-const {laplace} = require('./math/PDEs/Laplace');
+const {laplace, Z} = require('./math/PDEs/Laplace');
 const {Matrix} = require('ml-matrix');
 
 export class Plot extends React.Component {
@@ -13,6 +13,15 @@ export class Plot extends React.Component {
         this.myRef = React.createRef()
         this.state = {x:24};
     }
+
+    /*setux0 = (t) => {
+        this.setState({ux0:t});
+    }
+
+    setu0y = (t) => {
+        this.setState({u0y:t});
+    }*/
+
 
     sketch = (p) => {
         let f = [];
@@ -161,30 +170,39 @@ export class Plot extends React.Component {
     
     }
 
+    drawLaplace = (p) => {
+        p.noStroke();
+        /*const m = laplace(2, 2, 40,
+            this.props.u0y,
+            this.props.ux0
+            /*(y)=>{ return y*(2 - y); }, 
+            (x)=>{ 
+                if (x > 0 && x < 1) {
+                    return x;
+                } else if (x >=1 && x < 2) {
+                    return 2-x;
+                }
+            }
+        )*/
+        p.translate(0, p.height/2);
+        p.rotateZ(-Math.PI/2);
+        const m = this.props.graphData;
+        for (let y = 0; y < 39; y++) {
+            for (let x = 0; x < 39; x++) {
+                const z = m.get(y, x);
+                p.fill(4 * z, 9 * z, 35);
+                p.rect(x*10, y*10, 10, 10);
+            }
+        }    
+        
+        
+    }
+
     sketch2d = (p) => {
         p.setup = () => {
-            p.createCanvas(1000, 500);
-            p.noStroke();
-            const m = laplace(2, 2, 40,
-                (s)=>{return 0;},
-                (s)=>{return 0;},
-                (y)=>{ return y*(2 - y); }, 
-                (x)=>{ 
-                    if (x > 0 && x < 1) {
-                        return x;
-                    } else if (x >=1 && x < 2) {
-                        return 2-x;
-                    }
-                }
-            )
-            for (let y = 0; y < 39; y++) {
-                for (let x = 0; x < 39; x++) {
-                    const z = m.get(y, x);
-                    p.fill(255 * z, 200 * z, 100);
-                    p.rect(x*10, y*10, 10, 10);
-                }
-            }    
-
+            p.createCanvas(1000, 500, p.WEBGL);
+            
+            this.drawLaplace(p);
                 
             /*const sa = sinArray(400, 1000, 44100);
             const ft = absArray(DFT(sa));
@@ -204,7 +222,8 @@ export class Plot extends React.Component {
         }
 
         p.draw = () => {
-
+            p.background(0);
+            this.drawLaplace(p);
         }
     }
 

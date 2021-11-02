@@ -11,6 +11,7 @@ const prec = [')', '^', '*', '/', '+', '-'];
 const parseFunc = (tokens, varName, varVal) => {
     let stackA = [];
     let stackB = [];
+    //console.log(tokens);
     let tcopy = tokens.slice();
 
     const arithmetic = (left, right, op) => {
@@ -70,17 +71,17 @@ const parseFunc = (tokens, varName, varVal) => {
                 stackB.pop();
                 stackB.pop();
                 stackB.push(sym.value);
-                let right = stackA.pop();
-                let left = stackA.pop();
+                let r = stackA.pop();
+                let l = stackA.pop();
                 
-                arithmetic(left, right, lastOp);    
+                arithmetic(l, r, lastOp);    
             }
             if (sym.value === ')') {
                 stackB.pop();
                 while (stackB[stackB.length-1] != '(') {
-                    right = stackA.pop();
-                    left = stackA.pop();
-                    arithmetic(left, right, stackB.pop());
+                    let r = stackA.pop();
+                    let l = stackA.pop();
+                    arithmetic(l, r, stackB.pop());
                 }
                 stackB.pop();
             }
@@ -88,9 +89,9 @@ const parseFunc = (tokens, varName, varVal) => {
     }
     while (stackB.length > 0) {
         console.log(stackA, stackB);
-        let right = stackA.pop();
-        let left = stackA.pop();
-        arithmetic(left, right, stackB.pop());
+        let r = stackA.pop();
+        let l = stackA.pop();
+        arithmetic(l, r, stackB.pop());
     }
     
     return stackA.pop();

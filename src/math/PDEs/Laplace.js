@@ -1,8 +1,10 @@
+//import { Token, ANUM } from '../Parser';
 const {Matrix, solve} = require('ml-matrix');
+const {parseFunc } = require('../SymbolParser');
 
 //const h = 0.25;
 //const SIZE = 2;
-const Z = (s) => { return 0; };
+const Z = [ {value:0, ttype:0} ];
 /*
 [ p00 p01 p02 ... p10 p11 p12 ... pn0 ... pnm]
 */
@@ -11,7 +13,9 @@ const match = (a, b, a1, b1) => {
     return (a === a1 && b === b1);
 };
 
+// input boundary conditions as tokens
 const laplace = (a, b, n, u_0y=Z, u_x0=Z, u_ay=Z, u_xb=Z) => {
+    console.log(u_0y, u_ay, u_x0, u_xb);
     const h = a / n;
     const count = n-1; // num interior points per axis
     let m = new Matrix(count*count, count*count);
@@ -30,16 +34,16 @@ const laplace = (a, b, n, u_0y=Z, u_x0=Z, u_ay=Z, u_xb=Z) => {
                     
                     if (match(x, y, j, i+1) || match(x, y, j+1, i) || match(x, y, j, i-1) || match(x, y, j-1, i)) {
                         if (match(x, y, 0, y)) {
-                            sum += u_0y(y);
+                            sum += parseFunc(u_0y, 'y', y);
                         }
                         else if (match(x, y, x, 0)) {
-                            sum += u_x0(x);
+                            sum += parseFunc(u_x0, 'x', x);//u_x0(x);
                         }
                         else if (match(x*h, y, a, y)) {
-                            sum += u_ay(y*h);
+                            sum += parseFunc(u_ay, 'y', y*h);//u_ay(y*h);
                         }
                         else if (match(x, y*h, x, b)) {
-                            sum += u_xb(x*h);
+                            sum += parseFunc(u_xb, 'x', x*h);//u_xb(x*h);
                         }
                         else {
                             m1[index] = 1;
@@ -73,4 +77,4 @@ const laplace = (a, b, n, u_0y=Z, u_x0=Z, u_ay=Z, u_xb=Z) => {
     return points;
 };
 
-module.exports = { laplace };
+module.exports = { laplace, Z };
