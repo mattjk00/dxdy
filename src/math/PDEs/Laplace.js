@@ -40,10 +40,10 @@ const laplace = (a, b, n, u_0y=Z, u_x0=Z, u_ay=Z, u_xb=Z) => {
                             sum += parseFunc(u_x0, 'x', x);//u_x0(x);
                         }
                         else if (match(x*h, y, a, y)) {
-                            sum += parseFunc(u_ay, 'y', y*h);//u_ay(y*h);
+                            sum += parseFunc(u_ay, 'y', y);//u_ay(y*h);
                         }
                         else if (match(x, y*h, x, b)) {
-                            sum += parseFunc(u_xb, 'x', x*h);//u_xb(x*h);
+                            sum += parseFunc(u_xb, 'x', x);//u_xb(x*h);
                         }
                         else {
                             m1[index] = 1;
