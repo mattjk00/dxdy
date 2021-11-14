@@ -185,7 +185,8 @@ export class Plot extends React.Component {
             }
         )*/
         p.translate(0, p.height/2);
-        p.rotateZ(-Math.PI/2);
+        p.translate(0, p.width/2);
+        p.rotate(-Math.PI/2);
         const m = this.props.graphData;
         for (let y = 0; y < 39; y++) {
             for (let x = 0; x < 39; x++) {
@@ -200,30 +201,20 @@ export class Plot extends React.Component {
 
     sketch2d = (p) => {
         p.setup = () => {
-            p.createCanvas(1000, 500, p.WEBGL);
-            
-            this.drawLaplace(p);
-                
-            /*const sa = sinArray(400, 1000, 44100);
-            const ft = absArray(DFT(sa));
-            
-            const spacing = p.width/(ft.length/4);
-            console.log(spacing);
-            
-            p.scale(1);
-            
-            for (let  i = 0; i < ft.length/2; i++) {
-                p.fill("black");
-                const m = ft[i] * 1/2;
-                p.rect(i*spacing - p.width/2, 0, spacing/2, -m);
-            }
-            //parse();*/
+            p.createCanvas(400, 400);
+            p.background(0);
+            //this.drawLaplace(p);
 
         }
 
         p.draw = () => {
-            p.background(0);
-            this.drawLaplace(p);
+            //
+            if (this.props.redrawFlag === true) {
+                p.background(0);
+                this.drawLaplace(p);
+                this.props.redrawCallback();
+            }
+            
         }
     }
 

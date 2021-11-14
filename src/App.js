@@ -1,7 +1,7 @@
 import {Page, Toolbar, Card, Input, Row, Col} from 'react-onsenui'
 import {Plot} from "./Plot.js"
 import {tokenize} from "./math/Tokenizer"
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { HeatEqForm } from './forms/HeatEqForm.js';
 import { WholeForm } from './forms/WholeForm.js';
 const {laplace, Z} =  require('./math/PDEs/Laplace');
@@ -17,6 +17,7 @@ function App() {
   const [uay, setuay] = useState(Z);
   const [uxb, setuxb] = useState(Z);
   const [graphData, setGraphData] = useState(new Matrix(40, 40));
+  const [redrawFlag, setRedrawFlag] = useState(false);
 
   const onExprInput = (e) => {
     const text = e.target.value;
@@ -25,14 +26,19 @@ function App() {
     setValidExpr(okayTokens);
   };
 
+  const redrawCallback = () => {
+    setRedrawFlag(false);
+  }
+
   const drawLaplace = () => {
+    
     const m = laplace(2, 2, 40,
       u0y,
       ux0,
       uay,
       uxb);
     setGraphData(m);
-    console.log(m);
+    setRedrawFlag(true);
   };
 
   return (
@@ -56,13 +62,14 @@ function App() {
           </Card> */}
           <Card>
             <WholeForm drawLaplace={drawLaplace} setux0={setux0} setu0y={setu0y} setuay={setuay} setuxb={setuxb}></WholeForm>
+            
           </Card>
           
         </Col>
         <Col witdh="66%">
           <Card style={{textAlign:'center'}}>
             <h4 style={{textAlign:'center'}}>Surface Plot</h4>
-            <Plot class="center" graphData={graphData}></Plot>
+            <Plot class="center" graphData={graphData} redrawFlag={redrawFlag} redrawCallback={redrawCallback}></Plot>
           </Card>
         </Col>
       </Row>

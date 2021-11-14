@@ -13,6 +13,7 @@ export const WholeForm = (props) => {
     }
 
     const renderForm = () => {
+        return  <LaplaceForm drawLaplace={props.drawLaplace} setux0={props.setux0} setu0y={props.setu0y} setuxb={props.setuxb} setuay={props.setuay}></LaplaceForm>;
         if (tabIndex == 0) {
             return <HeatEqForm></HeatEqForm>;
         } 
@@ -20,14 +21,14 @@ export const WholeForm = (props) => {
             return <p>Wave</p>;
         }
         else {
-            return  <LaplaceForm drawLaplace={props.drawLaplace} setux0={props.setux0} setu0y={props.setu0y} setuxb={props.setuxb} setuay={props.setuay}></LaplaceForm>;
+            
         }
     }
 
     return (
         <div>
             <div class="tabbar tabbar--top tabbar--material">
-                <label class="tabbar__item tabbar--material__item">
+                {/*{<label class="tabbar__item tabbar--material__item">
                     <input type="radio" name="tabbar-material-a" checked={tabIndex==0} value={0} onClick={(e)=>{tabPressed(e)}}/>
                     <button class="tabbar__button tabbar--material__button">
                     Heat
@@ -39,7 +40,7 @@ export const WholeForm = (props) => {
                     <button class="tabbar__button tabbar--material__button">
                     Wave
                     </button>
-                </label>
+    </label>}*/}
 
                 <label class="tabbar__item tabbar--material__item">
                     <input type="radio" name="tabbar-material-a" checked={tabIndex==2} value={2} onClick={(e)=>{tabPressed(e)}}/>
