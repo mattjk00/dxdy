@@ -37,6 +37,7 @@ export class Plot extends React.Component {
         let zoom = 2;
         let gridimg;
         let OFFSET=0;
+        let models;
 
         let g = (x,y) => {
             try {
@@ -97,7 +98,8 @@ export class Plot extends React.Component {
             }
             mp.updatePixels();
             
-            geo = [];
+            models = [];
+            
             /*geo = new p5.Geometry(SIZE, 0, function() {
                 OFFSET = -SIZE/2 * DETAIL;
                 
@@ -167,9 +169,10 @@ export class Plot extends React.Component {
             //p.plane(SIZE*DETAIL, SIZE*DETAIL);
             //p.image(gridimg, 0, 0);
             
-            p.texture(mp);
-            if (geo[0] !== undefined) {
-                p.model(geo[0]);
+            
+            if (geo !== undefined) {
+                p.texture(mp);
+                p.model(geo);
             }
             
             p.pop();
@@ -202,9 +205,16 @@ export class Plot extends React.Component {
                 dcounty += DETAIL;
             }
             mp.updatePixels();
+
+            p.setup();
             
-            
-            let newGeo = new p5.Geometry(SIZE, 0, function() {
+            if (geo !== undefined) {
+                //geo.reset();
+            }
+            //console.log(p.drawingContext.bufferData());
+            //console.log(p.drawingContext.checkFramebufferStatus(p.drawingContext.FRAMEBUFFER));
+
+            const newGeo = new p5.Geometry(SIZE, 0, function() {
                 OFFSET = -SIZE/2 * DETAIL;
                 
                 let dex=0;
@@ -234,12 +244,10 @@ export class Plot extends React.Component {
             newGeo.computeFaces();
             newGeo.computeNormals();
             //console.log(geo);
-            geo.push(newGeo);
-            // used to update webgl buffers
-            if (geo.length > 1) {
-                geo.shift();
-            }
+
+            geo = newGeo;
             
+            //models.push(newGeo);
         }
     }
 
