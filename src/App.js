@@ -4,6 +4,7 @@ import {tokenize} from "./math/Tokenizer"
 import React, {useState, useEffect} from 'react';
 import { HeatEqForm } from './forms/HeatEqForm.js';
 import { WholeForm } from './forms/WholeForm.js';
+import { SurfacePlot } from './SurfacePlot';
 const {laplace, Z} =  require('./math/PDEs/Laplace');
 const {Matrix} = require('ml-matrix');
 
@@ -69,7 +70,8 @@ function App() {
         <Col witdh="66%">
           <Card style={{textAlign:'center'}}>
             <h4 style={{textAlign:'center'}}>Surface Plot</h4>
-            <Plot class="center" graphData={graphData} redrawFlag={redrawFlag} redrawCallback={redrawCallback}></Plot>
+            {/*<Plot class="center" graphData={graphData} redrawFlag={redrawFlag} redrawCallback={redrawCallback}></Plot>*/}
+            <SurfacePlot redrawFlag={redrawFlag} graphData={graphData} redrawCallback={redrawCallback}></SurfacePlot>
           </Card>
         </Col>
       </Row>
