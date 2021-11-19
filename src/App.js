@@ -68,10 +68,10 @@ function App() {
           
         </Col>
         <Col witdh="66%">
-          <Card style={{textAlign:'center'}}>
-            <h4 style={{textAlign:'center'}}>Surface Plot</h4>
+          <Card id="plot-container" style={{textAlign:'center'}}>
+            <div><h4 class="flex-break" style={{textAlign:'center'}}>Surface Plot</h4></div>
             {/*<Plot class="center" graphData={graphData} redrawFlag={redrawFlag} redrawCallback={redrawCallback}></Plot>*/}
-            <SurfacePlot redrawFlag={redrawFlag} graphData={graphData} redrawCallback={redrawCallback}></SurfacePlot>
+            <div><SurfacePlot redrawFlag={redrawFlag} graphData={graphData} redrawCallback={redrawCallback}></SurfacePlot></div>
           </Card>
         </Col>
       </Row>

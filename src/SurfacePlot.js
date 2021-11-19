@@ -30,20 +30,21 @@ export class SurfacePlot extends Component {
     controls.update();
     
     
-    const geometry = new THREE.PlaneGeometry(2, 2, 39, 39);
+    const geometry = new THREE.PlaneGeometry(2, 2, 38, 38);
 
     const loader = new THREE.TextureLoader();
-    const texture = loader.load('https://threejsfundamentals.org/threejs/resources/images/checker.png');
-    texture.wrapS = THREE.RepeatWrapping;
-    texture.wrapT = THREE.RepeatWrapping;
-    texture.magFilter = THREE.NearestFilter;
-    const repeats = 5 / 2;
-    texture.repeat.set(repeats, repeats);
+    const texture = this.createSurfaceTexture();//loader.load('https://threejsfundamentals.org/threejs/resources/images/checker.png');
+    texture.flipY = true;
+    //texture.wrapS = THREE.RepeatWrapping;
+    //texture.wrapT = THREE.RepeatWrapping;
+    //texture.magFilter = THREE.NearestFilter;
+    //const repeats = 5 / 2;
+    //texture.repeat.set(repeats, repeats);
     
     const material = new THREE.MeshPhongMaterial({
-        color: "#CA8",    // red (can also use a CSS color string here)
+        color: "white",    // red (can also use a CSS color string here)
         flatShading: false,
-        shininess:150,
+        //shininess:150,
         //specular:0x050505,
         side:THREE.DoubleSide,
         wireframe:false,
@@ -52,18 +53,23 @@ export class SurfacePlot extends Component {
     this.mesh = new THREE.Mesh(geometry, material);
         //console.log(cube.geometry);
     //cube.geometry.attributes.position.array[0]= 25;
-    this.mesh.geometry.attributes.position.array[2]= 0.5;
-    this.mesh.geometry.attributes.position.array[8]= 0.5;
-    this.mesh.geometry.attributes.position.array[11]= 0.3;
+    
     //cube.geometry.attributes.setZ(0, 5);
 
     camera.position.z = 2;
     scene.add(this.mesh);
-    renderer.setClearColor('#FFF');
+    renderer.setClearColor('#EEE');
     renderer.setSize(width, height);
 
-    const light2 = new THREE.AmbientLight( 0xAA4540 ); // soft white light
+    const light2 = new THREE.AmbientLight( 0xFFFFFF ); // soft white light
     scene.add( light2 );
+
+    const size = 10;
+const divisions = 25;
+
+const gridHelper = new THREE.GridHelper( size, divisions );
+gridHelper.position.setY(-0.1);
+scene.add( gridHelper );
 
     this.scene = scene;
     this.camera = camera;
@@ -73,6 +79,27 @@ export class SurfacePlot extends Component {
 
     this.mount.appendChild(this.renderer.domElement);
     this.start();
+  }
+
+  createSurfaceTexture() {
+    const size = 38*38;
+    let data = new Uint8Array(3 * size);
+
+    let pi = 0;
+    for (let i = 0; i < 38; i++) {
+      for (let j = 0; j < 38; j++) {
+        const val = this.props.graphData.get(j, i) / 10;
+        //const index = (j*38) + i;
+        data[pi] = Math.min(255, 25 * (val));
+        data[pi+1] = Math.min(255, 15 * (val));
+        data[pi+2] = Math.min(255, 45 * (val));
+        pi += 3;
+      }
+    }
+
+    const texture = new THREE.DataTexture(data, 38, 38, THREE.RGBFormat);
+    texture.flipY = true;
+    return texture;
   }
 
   componentWillUnmount() {
@@ -107,11 +134,15 @@ export class SurfacePlot extends Component {
     let icount = 2;
     for (let y = 0; y < 39; y++) {
         for (let x = 0; x < 39; x++) {
-            this.mesh.geometry.attributes.position.array[icount] = this.props.graphData.get(y, x) / 75;
+            this.mesh.geometry.attributes.position.array[icount] = this.props.graphData.get(x, y) / 100;
             icount += 3;
         }
     }
     this.mesh.geometry.attributes.position.needsUpdate = true;
+
+    this.mesh.material.map = this.createSurfaceTexture();
+    //this.mesh.material.flipY = true;
+    this.mesh.material.needsUpdate = true;
   }
 
   renderScene() {
@@ -121,7 +152,7 @@ export class SurfacePlot extends Component {
   render() {
     return (
       <div
-        style={{ width: '400px', height: '400px' }}
+        style={{ width: '800px', height: '400px' }}
         ref={(mount) => { this.mount = mount }}
       />
     )
